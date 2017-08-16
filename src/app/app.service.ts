@@ -27,13 +27,14 @@ export class StockService {
       .then(response => response.json())
   }
 
-  public updateStock(stock): Promise<any> {
-    return this.http.put(environment.url, stock, options).toPromise()
+  public updateStock(stock, stockId): Promise<any> {
+    console.log('update stock', stock);
+    return this.http.put(environment.url + '/' + stockId, stock, options).toPromise()
       .then(response => response.json())
   }
 
   public deleteStock(stockId): Promise<any> {
-    return this.http.delete(environment.url, stockId).toPromise()
+    return this.http.delete(environment.url + '/' + stockId, stockId).toPromise()
       .then(response => response.json())
   }
 

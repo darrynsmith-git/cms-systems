@@ -7,7 +7,7 @@ var stockSchema = new Schema({
   registration_number: { type: String, required: true, unique: true },
   make: String,
   model: String,
-  model_year: Date,
+  model_year: Number,
   kms: Number,
   color: String,
   vin: String,

@@ -1,35 +1,75 @@
 const express = require('express');
 const api = express();
-const service = require('./service');
-
+require('./database.connection');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const Stock = require('./models/Stock');
+
+api.use(bodyParser.json());
 api.use(cors());
 api.options('*', cors());
 
+
 api.get('/', function (req, res) {
-  res.status(200).json({'message' : 'Hello World!'});
+  res.status(200).json({'message' : 'Hello API World!'});
 })
 
 api.get('/stock', function (req, res) {
-  res.status(200).json({'message' : service.readAllStocks()});
+  Stock.find({}, function(err, stocks) {
+    if (err) {
+      res.status(500).json(err);
+    }
+    res.status(200).json({'data' : stocks});
+  });
 })
 
 api.get('/stock/:stockId', function (req, res) {
-  res.status(200).json({'message' : 'yoyo'});
+  console.log('Fetching a Stock');
+  Stock.findById(stockId, function(err, stock) {
+    if (err) {
+      console.log('Error Fetching a Stock ', err);
+      res.status(500).json(err);
+    }
+    console.log('Successfully fetched a Stock ', stock);
+    res.status(200).json({'data' : stock});
+  });
 })
 
 api.post('/stock', function (req, res) {
-  console.log(req);
   console.log('Creating a new Stock');
-  res.status(200).json({'message' : 'yoyo'});
+  var newStock = Stock(req.body);
+  newStock.save(function(err) {
+    if (err) {
+      console.log('Error Creating a new Stock ', err);
+      res.status(500).json(err);
+    }
+    console.log('Successfully created a new Stock ', newStock._id);
+    res.status(200).json({'stockId' : newStock._id});
+  });
 })
 
 api.delete('/stock/:stockId', function (req, res) {
-  res.status(200).json({'message' : 'yoyo'});
+  console.log('Deleting a Stock ', req.params.stockId);
+  Stock.findByIdAndRemove(req.params.stockId, function(err) {
+    if (err) {
+      console.log('Error Deleting a Stock ', err);
+      res.status(500).json(err);
+    }
+    res.status(200).json({'msg':'Deleted'});
+    console.log('Successfully deleted Stock ', req.params.stockId);
+  });
 })
 
 api.put('/stock/:stockId', function (req, res) {
-  res.status(200).json({'message' : 'yoyo'});
+  console.log('Updating a Stock ');
+  Stock.findByIdAndUpdate(req.params.stockId, req.body, function(err, stock) {
+    if (err) {
+      console.log('Error Updating a Stock ', err);
+      res.status(500).json(err);
+    }
+    res.status(200).json({'stock' : stock});
+    console.log('Successfully updated Stock ', req.params.stockId);
+  });
 })
 
 api.listen(3000, function () {
