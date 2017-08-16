@@ -1,20 +1,184 @@
-<!--The whole content below can be removed with the new code.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyNTAgMjUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNTAgMjUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojREQwMDMxO30NCgkuc3Qxe2ZpbGw6I0MzMDAyRjt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTI1LDMwIDEyNSwzMCAxMjUsMzAgMzEuOSw2My4yIDQ2LjEsMTg2LjMgMTI1LDIzMCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAJIi8+DQoJPHBvbHlnb24gY2xhc3M9InN0MSIgcG9pbnRzPSIxMjUsMzAgMTI1LDUyLjIgMTI1LDUyLjEgMTI1LDE1My40IDEyNSwxNTMuNCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAxMjUsMzAgCSIvPg0KCTxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik0xMjUsNTIuMUw2Ni44LDE4Mi42aDBoMjEuN2gwbDExLjctMjkuMmg0OS40bDExLjcsMjkuMmgwaDIxLjdoMEwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMQ0KCQlMMTI1LDUyLjF6IE0xNDIsMTM1LjRIMTA4bDE3LTQwLjlMMTQyLDEzNS40eiIvPg0KPC9nPg0KPC9zdmc+DQo=" />
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="http://angularjs.blogspot.ca/">Angular blog</a></h2>
-  </li>
-</ul>
 
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-10"><h3>Manage Stocks</h3></div>
+    <div class="col-xs-12 col-md-2">
+      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#createStock" id="add_stock_button">Add New Stock</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Summarized view to read all Stocks -->
+<!-- todo:: loop through all stocks first with *NgFor -->
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Thumbnail</th>
+      <th>Registration Number:</th>
+      <th>Make:</th>
+      <th>Model:</th>
+      <th>Color:</th>
+      <th id='action_bar'>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><img src="https://i.pinimg.com/564x/a3/c0/c8/a3c0c82c506c557391e29d93923f0da9.jpg" class="img-thumbnail" width="90" height="90"></td>
+        <td>CY 87927</td>
+        <td>Jeep</td>
+        <td>Patriot</td>
+        <td>Black</td>
+        <td>
+          <button class="btn btn-danger btn-xs" (click)="confirmStockDelete()">Delete</button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#updateStock">View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+<!-- Add a new Stock : Modal  -->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="createStock" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #creationForm="ngForm" (ngSubmit)="addStock(creationForm)" novalidate>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add a Stock</h4>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                <label for="registration_number">Registration Number:</label>
+                <input type="text" class="form-control" id="registration_number" name="registration_number" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="make">Make:</label>
+                <input type="text" class="form-control" id="make" name="make" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" class="form-control" id="model" name="model" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="model_year">Model Year:</label>
+                <input type="text" class="form-control" id="model_year" name="model_year" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="kms">KMS:</label>
+                <input type="text" class="form-control" id="kms" name="kms" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="color">Color:</label>
+                <input type="text" class="form-control" id="color" name="color" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="vin">VIN:</label>
+                <input type="text" class="form-control" id="vin" name="vin" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="retail_price">Retail Price:</label>
+                <input type="text" class="form-control" id="retail_price" name="retail_price" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="cost_price">Cost Price:</label>
+                <input type="text" class="form-control" id="cost_price" name="cost_price" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="accessories">Accessories:</label>
+                <input type="text" class="form-control" id="accessories" name="accessories" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="images">Images:</label>
+                <input type="file" id="images" name="images" multiple>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" >Add Stock</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Viewing and Updating a Stock : Modal  -->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="updateStock" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #updatingForm="ngForm" (ngSubmit)="updateStock(updatingForm)" novalidate>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">View and Modify Stock</h4>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                <label for="registration_number">Registration Number:</label>
+                <input type="text" class="form-control" id="registration_number" name="registration_number" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="make">Make:</label>
+                <input type="text" class="form-control" id="make" name="make" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" class="form-control" id="model" name="model" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="model_year">Model Year:</label>
+                <input type="text" class="form-control" id="model_year" name="model_year" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="kms">KMS:</label>
+                <input type="text" class="form-control" id="kms" name="kms" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="color">Color:</label>
+                <input type="text" class="form-control" id="color" name="color" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="vin">VIN:</label>
+                <input type="text" class="form-control" id="vin" name="vin" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="retail_price">Retail Price:</label>
+                <input type="text" class="form-control" id="retail_price" name="retail_price" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="cost_price">Cost Price:</label>
+                <input type="text" class="form-control" id="cost_price" name="cost_price" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="accessories">Accessories:</label>
+                <input type="text" class="form-control" id="accessories" name="accessories" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="images">Images:</label>
+                <input type="file" id="images" name="images" multiple>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" >Add Stock</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
