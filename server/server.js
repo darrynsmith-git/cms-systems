@@ -44,7 +44,7 @@ api.post('/stock', function (req, res) {
       res.status(500).json(err);
     }
     console.log('Successfully created a new Stock ', newStock._id);
-    res.status(200).json({'stockId' : newStock._id});
+    res.status(200).json(newStock);
   });
 })
 
@@ -55,7 +55,7 @@ api.delete('/stock/:stockId', function (req, res) {
       console.log('Error Deleting a Stock ', err);
       res.status(500).json(err);
     }
-    res.status(200).json({'msg':'Deleted'});
+    res.status(200).json(req.params.stockId);
     console.log('Successfully deleted Stock ', req.params.stockId);
   });
 })

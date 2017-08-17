@@ -1,10 +1,10 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { StockComponent } from './stock/stock.component';
+import {AppComponent} from './app.component';
 
 export const CustomRoutes: Routes = [
   { path: '', redirectTo: 'stock', pathMatch: 'full' },
-  { path: 'stock', component: StockComponent }
+  { path: 'stock', component: AppComponent }
 ];
 
 export const RoutesModule: ModuleWithProviders = RouterModule.forRoot(CustomRoutes);

@@ -6,6 +6,9 @@ import { StockComponent } from './stock/stock.component';
 import { FormsModule } from '@angular/forms';
 import { StockService } from './app.service';
 import { HttpModule } from '@angular/http';
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { CustomOption } from '../assets/custom.toast';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,12 +17,15 @@ import { HttpModule } from '@angular/http';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RoutesModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ToastModule.forRoot()
   ],
   providers: [
-    StockService
+    StockService,
+    {provide: ToastOptions, useClass: CustomOption}
   ],
   bootstrap: [AppComponent]
 })
